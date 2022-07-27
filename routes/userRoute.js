@@ -27,4 +27,52 @@ router.get("/:id", (req, res) => {
     res.status(400).send(error);
   }
 });
+router.post("/", (req, res) => {
+  const {
+    email,
+    password,
+    full_name,
+    billing_address,
+    default_shipping_address,
+    country,
+    phone,
+    user_type,
+  } = req.body;
+  try {
+    con.query(
+      `INSERT INTO users(email, password, full_name, billing_address, default_shipping_address, country, phone, user_type)`,
+      VALUES(
+        "${email}",
+        "${password}",
+        "${full_name}",
+        "${billing_address}",
+        "${default_shipping_address}",
+        "${country}",
+        "${phone}",
+        "${user_type}"
+      ),
+      (err, result) => {
+        if (err) throw err;
+        res.send(result);
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+});
+router.put("/:id", (req, res) => {
+  try {
+    con.query(
+      `SELECT * FROM users WHERE user_id='${req.params.id}'`,
+      (err, result) => {
+        if (err) throw err;
+        res.send(result);
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+});
+
 module.exports = router;
