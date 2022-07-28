@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const con = require("../lib/db_connection");
+
 router.get("/", (req, res) => {
   try {
-    con.query("SELECT * FROM users", (err, result) => {
+    con.query("SELECT * FROM orders", (err, result) => {
       if (err) throw err;
       res.send(result);
     });
@@ -16,7 +17,7 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   try {
     con.query(
-      `SELECT * FROM users WHERE user_id='${req.params.id}'`,
+      `SELECT * FROM orders WHERE order_id='${req.params.id}'`,
       (err, result) => {
         if (err) throw err;
         res.send(result);
@@ -27,20 +28,19 @@ router.get("/:id", (req, res) => {
     res.status(400).send(error);
   }
 });
+
 router.post("/", (req, res) => {
   const {
-    email,
-    password,
-    full_name,
-    billing_address,
-    default_shipping_address,
-    country,
-    phone,
-    user_type,
+    user_id,
+    amount,
+    shipping_address,
+    order_email,
+    order_date,
+    order_status,
   } = req.body;
   try {
     con.query(
-      `INSERT INTO users(email, password, full_name, billing_address, default_shipping_address, country, phone, user_type) VALUES("${email}","${password}","${full_name}","${billing_address}","${default_shipping_address}","${country}","${phone}","${user_type}")`,
+      `INSERT INTO orders (user_id, amount, shipping_address,order_email, order_date, order_status) VALUES("${user_id}","${amount}","${shipping_address}","${order_email}","${order_date}","${order_status}")`,
       (err, result) => {
         if (err) throw err;
         res.send(result);
@@ -50,22 +50,16 @@ router.post("/", (req, res) => {
     console.log(error);
   }
 });
+
+//put
 router.put("/:id", (req, res) => {
-  const {
-    email,
-    password,
-    full_name,
-    billing_address,
-    default_shipping_address,
-    country,
-    phone,
-    user_type,
-  } = req.body;
+  const {user_id, amount, shipping_address, order_email, order_date, order_status } =
+    req.body;
   try {
     con.query(
-      `UPDATE users
-         SET email = "${email}", password = "${password}", full_name = "${full_name}", billing_address = "${billing_address}", default_shipping_address = "${default_shipping_address}", country = "${country}", phone = "${phone}", user_type = "${user_type}"
-         WHERE user_id=${req.params.id}`,
+      `UPDATE orders
+          SET amount = "${amount}",shipping_address = "${shipping_address}",order_email= "${order_email},order_date= "${order_date},order_status= "${order_status}"
+          WHERE order_id=${req.params.id}`,
       (err, result) => {
         if (err) throw err;
         res.send(result);
@@ -73,12 +67,14 @@ router.put("/:id", (req, res) => {
     );
   } catch (error) {
     console.log(error);
+    res.status(400).send(error);
   }
 });
+//delete
 router.delete("/:id", (req, res) => {
   try {
     con.query(
-      `DELETE  FROM users WHERE user_id='${req.params.id}'`,
+      `DELETE  FROM orders WHERE order_id='${req.params.id}'`,
       (err, result) => {
         if (err) throw err;
         res.send(result);
