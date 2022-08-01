@@ -17,8 +17,11 @@ app.use("/users", userRoute);
 app.use("/products", productRoute);
 app.use("/categories", categoriesRoute);
 app.use("/orders", ordersRoute);
-app.get("/", (req, res) => {
-  res.json({ msg: "Welcome" });
+
+app.use(express.static("public"));
+
+app.get("/", function (req, res) {
+  res.sendFile(__dirname + "/users" + "/index.html");
 });
 
 app.listen(app.get("port"), () => {
