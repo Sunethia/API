@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Products:</h1>
+    <div id="output"></div>
+
+    <script>
+      const url = "http://localhost:6969";
+      function products(url) {
+        fetch(url + "/" + "products")
+          .then((res) => res.json())
+          .then((data) => {
+            for (i = 0; i < data.length; i++) {
+              console.log(data);
+              document.getElementById("output").innerHTML += `
+             <table>
+                <tr>
+                    <th>PRODUCT_ID</th>
+                    <th>SKU</th>
+                    <th>NAME</th>
+                    <th>PRICE</th>
+                    <th>WEIGHT</th>
+                    <th>DESCRIPTIONS</th>
+                    <th>THUMBNAIL</th>
+                    <th>IMAGE</th>
+                    <th>CATEGORY</th>
+                    <th>CREATE_DATE</th>
+                    <th>STOCK</th>
+                    </tr>
+                    <tr>
+                        <td>${data[i].product_id}</td>
+                        <td>${data[i].sku}</td>
+                        <td>${data[i].name}</td>
+                        <td>${data[i].price}</td>
+                        <td>${data[i].weight}</td>
+                        <td>${data[i].descriptions}</td>
+                        <td>${data[i].thumbnail}</td>
+                        <td>${data[i].image}</td>
+                         <td>${data[i].category}</td>
+                          <td>${data[i].create_date}</td>
+                           <td>${data[i].stock}</td>
+                    </tr>
+            </table>`;
+            }
+          });
+      }
+      products(url);
+    </script>
+    <style>
+      h1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 4rem;
+        color: blue;
+      }
+      table {
+        border: 1px solid cornflowerblue;
+        margin-bottom: 10px;
+      }
+      th {
+        border: 1px solid blue;
+        background-color: lightblue;
+        width: 200px;
+      }
+      td {
+        max-width: 200px;
+        height: 150px;
+        border: 1px solid cornflowerblue;
+        padding: 10px;
+        margin-inline: 10%;
+        word-wrap: break-word;
+      }
+      form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </body>
+</html>

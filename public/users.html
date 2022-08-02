@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Users:</h1>
+    <div id="output"></div>
+    <h1>Form that calls the forgot password route</h1>
+
+    <form onsubmit.preven="forgotPsw()">
+      <label for="email" placeholder="email">Email:</label><br />
+      <input type="text" id="email" name="email" /><br />
+      <input type="submit" value="Submit" />
+    </form>
+    <script>
+      const url = "http://localhost:6969";
+      function api(url) {
+        fetch(url + "/" + "users")
+          .then((res) => res.json())
+          .then((data) => {
+            for (i = 0; i < data.length; i++) {
+              console.log(data);
+              document.getElementById("output").innerHTML += `
+             <table>
+                <tr>
+                    <th>EMAIL</th>
+                    <th>PASSWORD</th>
+                    <th>USER_TYPE</th>
+                    <th>PHONE</th>
+                    <th>COUNTRY</th>
+                    <th>BILLING_ADDRESS</th>
+                    <th>DEFAULT_SHIPPING_ADDRESS</th>
+                    </tr>
+                    <tr>
+                        <td>${data[i].email}</td>
+                        <td>${data[i].password}</td>
+                        <td>${data[i].user_type}</td>
+                        <td>${data[i].phone}</td>
+                        <td>${data[i].country}</td>
+                        <td>${data[i].billing_address}</td>
+                        <td>${data[i].default_shipping_address}</td>
+                    </tr>
+            </table>`;
+            }
+          });
+      }
+      api(url);
+    </script>
+    <style>
+      h1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 4rem;
+        color: blue;
+      }
+      table {
+        border: 1px solid cornflowerblue;
+        margin-bottom: 10px;
+      }
+      th {
+        border: 1px solid blue;
+        background-color: lightblue;
+        width: 200px;
+      }
+      td {
+        max-width: 200px;
+        height: 150px;
+        border: 1px solid cornflowerblue;
+        padding: 10px;
+        margin-inline: 10%;
+        word-wrap: break-word;
+      }
+      form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </body>
+</html>

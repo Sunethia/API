@@ -295,4 +295,7 @@ router.put("reset-psw/:id", (req, res) => {
     }
   });
 });
+
+//forget password route
+
 module.exports = router;

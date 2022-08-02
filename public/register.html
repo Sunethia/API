@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Register</h1>
+    <div id="output"></div>
+    <script>
+      let register = (document.getElementById("output").innerHTML = `
+        <form>
+        <input type="text" name="full_name" id="full_name" placeholder="Full Name:"/>
+        <input type="text" name="email" id="email" placeholder="Email:"/>
+        <input type="text" name="password" id="password" placeholder="Password"/>
+        <input type="text" name="user_type" id="user_type" placeholder="User Type"/>
+        <input type="text" name="phone" id="phone" placeholder="Phone:"/>
+        <input type="text" name="country" id="country" placeholder="Country"/>
+        <input type="text" name="billing_address" id="billing_address" placeholder="Billing Address:"/>
+        <input type="text" name="default_billing_address" id="default_billing_address" placeholder="Default Billing Address:"/>
+        <button type="submit" id="btn">Register</button>
+        </form>
+        `);
+      btn.addEventListener("click", myFunction);
+      async function myFunction() {
+        let full_name = document.getElementById("full_name").value;
+        let email = document.getElementById("email").value;
+        let password = document.getElementById("password").value;
+        let user_type = document.getElementById("user_type").value;
+        let phone = document.getElementById("phone").value;
+        let country = document.getElementById("country").value;
+        let billing_address = document.getElementById("billing_address").value;
+        let default_shipping_address = document.getElementById(
+          "default_shipping_address"
+        ).value;
+        const res = await fetch("http://localhost:6969/users/register", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify({
+            full_name: full_name,
+            email: email,
+            password: password,
+            user_type: user_type,
+            phone: phone,
+            country: country,
+            billing_address: billing_address,
+            default_shipping_address: default_shipping_address,
+          }),
+        });
+        const data = await res.json();
+        console.log(data);
+      }
+    </script>
+    <style>
+      h1 {
+        text-align: center;
+      }
+      #output {
+        height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      form {
+        border: 1px solid black;
+        width: 450px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+      }
+    </style>
+  </body>
+</html>
